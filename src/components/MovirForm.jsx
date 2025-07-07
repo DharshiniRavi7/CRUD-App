@@ -1,29 +1,30 @@
-// components/MovieForm.jsx
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addMovie } from '../redux/movieSlice';
+// src/components/MovieForm.jsx
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addMovie } from "../redux/movieSlice";
+import { v4 as uuidv4 } from "uuid";
 
 function MovieForm() {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title.trim()) return;
-    dispatch(addMovie({ title }));
-    setTitle('');
+    if (title.trim()) {
+      dispatch(addMovie({ id: uuidv4(), title }));
+      setTitle("");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
+    <form onSubmit={handleSubmit} className="d-flex mb-4">
       <input
-        type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Enter movie title"
-        className="form-control"
+        className="form-control me-2"
       />
-      <button className="btn btn-success mt-2">Add Movie</button>
+      <button type="submit" className="btn btn-success">Add</button>
     </form>
   );
 }
